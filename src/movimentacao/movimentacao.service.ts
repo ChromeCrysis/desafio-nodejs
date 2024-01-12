@@ -55,26 +55,29 @@ export class MovimentacaoService {
   }
 
   async gerarSumario(estabelecimentoId: number): Promise<{ entradas: number; saidas: number }> {
-    const [entradas, saidas] = await Promise.all([
-      this.movimentacaoRepository.count({ where: { estabelecimento: { estabelecimentoId: estabelecimentoId }, saida: null } }),
-      this.movimentacaoRepository.count({ where: { estabelecimento: { estabelecimentoId: estabelecimentoId }, saida: Not(null) }}),
-    ]);
+    const sumario = await this.movimentacaoRepository
+      .createQueryBuilder('movimentacao')
+      .select('COUNT(CASE WHEN movimentacao.saida IS NULL THEN 1 END)', 'entradas')
+      .addSelect('COUNT(CASE WHEN movimentacao.saida IS NOT NULL THEN 1 END)', 'saidas')
+      .where('movimentacao.estabelecimentoId = :estabelecimentoId', { estabelecimentoId })
+      .getRawOne();
 
-    return { entradas, saidas };
+    return { entradas: +sumario.entradas, saidas: +sumario.saidas };
   }
 
-  async gerarSumarioPorHora(estabelecimentoId: number): Promise<{ hora: number; entradas: number; saidas: number }[]> {
+  async gerarSumarioPorHoraOrdenado(estabelecimentoId: number): Promise<{ hora: number; entradas: number; saidas: number }[]> {
     const result = await this.movimentacaoRepository
       .createQueryBuilder('movimentacao')
       .select('HOUR(movimentacao.entrada) as hora')
-      .addSelect('COUNT(CASE WHEN movimentacao.entrada IS NOT NULL THEN 1 END) as entradas')
+      .addSelect('COUNT(CASE WHEN movimentacao.saida IS NULL THEN 1 END) as entradas')
       .addSelect('COUNT(CASE WHEN movimentacao.saida IS NOT NULL THEN 1 END) as saidas')
       .where('movimentacao.estabelecimentoId = :estabelecimentoId', { estabelecimentoId })
-      .groupBy('HOUR(movimentacao.entrada)')
+      .groupBy('hora')
+      .orderBy('hora', 'ASC')
       .getRawMany();
 
     return result.map(({ hora, entradas, saidas }) => ({ hora, entradas: +entradas, saidas: +saidas }));
-  }
+    }
 
   async gerarRelatorio(estabelecimentoId: number): Promise<Movimentacao[]> {
     return this.movimentacaoRepository.find({

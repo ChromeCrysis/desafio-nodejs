@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
 import { VeiculosModule } from './veiculos/veiculos.module';
 import { EstabelecimentosModule } from './estabelecimentos/estabelecimentos.module';
 import { MovimentacaoModule } from './movimentacao/movimentacao.module';
@@ -16,10 +17,9 @@ import { MovimentacaoModule } from './movimentacao/movimentacao.module';
       database: 'desafio',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
-    }), JwtModule.register({
-      secret: 'seu_segredo_jwt',
-      signOptions: { expiresIn: '1h' },
     }),
+    ConfigModule.forRoot(),
+    AuthModule,
     VeiculosModule,
     EstabelecimentosModule,
     MovimentacaoModule

@@ -1,4 +1,3 @@
-// movimentacao.entity.ts
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { Veiculo } from '../veiculos/veiculo.entity';
 import { Estabelecimento } from '../estabelecimentos/estabelecimentos.entity';
