@@ -1,73 +1,89 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Desafio entrevista NodeJS 
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Este projeto é um desafio para a vaga de desenvolvedor backend NodeJS, consiste em uma API feita utilizando o framework NestJS
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Tecnologias de desenvolvimento utilizadas
 
-## Description
+- NestJS
+- TypeORM
+- MySQL
+- JWT (Json Web Token)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Objetivos
 
-## Installation
+O objetivo do projeto é a criação de uma API REST para gerenciamento de estacionamento. A API realiza operações CRUD para cadastrar Estabelecimentos e Veículos e também gera relatórios personalizados.
 
-```bash
-$ npm install
-```
+## Endpoints
+### Estabelecimentos
+- GET - estabelecimentos/ . Busca todos os estabelecimentos cadastrados.
+- GET - estabelcimentos/:estabelecimentoId . Busca um estabelecimento específico pelo seu ID.
+- POST - estabelecimentos/ . Cria um novo estabelecimento.
+  
+  Corpo da requisição: `` {
+  "nome": "Teste Tech Corp 1",
+  "cnpj": "00.197.939/0001-99",
+  "endereco": "rua teste2, numero 171",
+  "telefone": "19999558844",
+  "qtd_vagas_moto": 20,
+  "qtd_vagas_carro": 10
+} ``
+- PUT - estabelecimentos/:estabelecimentoId . Atualiza os dados de um estabelecimento.
+  
+  Corpo da requisição: `` {
+  "nome": "Teste Tech Corp 1",
+  "cnpj": "00.197.939/0001-99",
+  "endereco": "rua teste2, numero 171",
+  "telefone": "19999558844",
+  "qtd_vagas_moto": 20,
+  "qtd_vagas_carro": 10
+} ``
+- DELETE - estabelecimentos/:estabelecimentoId . Deleta um estabelecimento.
 
-## Running the app
+### Veículos
+- GET - veiculos/ . Busca todos os veiculos cadastrados.
+- GET - veiculos/:veiculoId . Busca um veiculo específico pelo seu ID.
+- POST - veiculos/ . Cria um novo veiculo.
+  
+   Corpo da requisição: `` {
+  "marca": "Chevrolet",
+  "modelo": "Prisma 1.4 LTZ 2018",
+  "cor": "Preto",
+  "placa": "FBI6H48",
+  "tipo": "sedan"
+} ``
+- PUT - veiculos/:veiculoId . Atualiza os dados de um veiculo.
+  
+   Corpo da requisição: `` {
+  "marca": "Chevrolet",
+  "modelo": "Prisma 1.4 LTZ 2018",
+  "cor": "Preto",
+  "placa": "FBI6H48",
+  "tipo": "sedan"
+} ``
+- DELETE - veiculos/:veiculoId . Deleta um veiculo.
 
-```bash
-# development
-$ npm run start
+### Movimentações
+- GET - movimentacao/ . Busca todo o histórico de movimentações (entradas e saídas) disponível no banco.
+- GET - movimentacao/:id . Busca uma movimentação específica pelo seu ID.
+- GET - movimentacao/sumario/:estabelecimentoId . Gera um sumário de entradas e saídas de veículos em um estabelecimento específico.
+- GET - movimentacao/sumario-por-hora/:estabelecimentoId . Gera um sumário de entradas e saídas por hora de um estabelecimento específico.
+- GET - movimentacao/relatorio/:estabelecimentoId . Gera um relatório de veículos que entraram e saíram de um estabelecimento específico.
+- POST - movimentação/:veiculoId/:estabelecimentoId/entrada . Cria uma entrada de veiculo em um estabelecimento.
+- PUT - movimentacao/:id/saida . Cria uma saída de veículo utlizando o ID da movimentação desejada atualizando o campo com a data de saída.
 
-# watch mode
-$ npm run start:dev
+### Auth
+- POST - auth/generate-token . Cria um token de autenticação necessário para utilizar os endpoints.
 
-# production mode
-$ npm run start:prod
-```
+## Instruções de uso
+Para rodar o projeto faça o download desse repositório utilizando o comando ``git clone https://github.com/ChromeCrysis/desafio-nodejs.git`` 
 
-## Test
+Para instalar as dependências execute o comando ``npm install`` ou ``npm i`` .
 
-```bash
-# unit tests
-$ npm run test
+Também é necessária a configuração do banco de dados MySQL preenchendo as variáveis presentes no arquivo app.module.ts.
 
-# e2e tests
-$ npm run test:e2e
+Para utilizar qualquer endpoint da API será necessário gerar um Token, pois a mesma está protegida e utiliza de JWT (Json Web Token) para autenticação. Siga as instruções abaixo:
+- Abra sua ferramenta de requisições e acesse o endpoint http://localhost:3000/auth/generate-token . O resultado será um JSON com um token.
+  ![image](https://github.com/ChromeCrysis/desafio-nodejs/assets/43283660/446e79a2-e791-4fe2-9d39-bf49b424c364)
 
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+- Copie o token e insira como BearerToken na autenticação da requisição do endpoint desejado.
+  ![image](https://github.com/ChromeCrysis/desafio-nodejs/assets/43283660/b4b2dcc8-ba97-4493-8258-c3c7516b0f70)
