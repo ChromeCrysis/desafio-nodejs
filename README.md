@@ -79,7 +79,8 @@ Para rodar o projeto faça o download desse repositório utilizando o comando ``
 
 Para instalar as dependências execute o comando ``npm install`` ou ``npm i`` .
 
-Também é necessária a configuração do banco de dados MySQL preenchendo as variáveis presentes no arquivo app.module.ts.
+Também é necessária a configuração do banco de dados MySQL preenchendo as variáveis presentes no arquivo app.module.ts. Após preencher as variáveis faça a migração dos dados para o banco usando o comando: ``typeorm migration:generate -n NomeDaMigracao
+``, após fazer a migração pode usar o seguinte comando para aplicar no banco de dados e criar as tabelas: ``typeorm migration:run``.
 
 Para utilizar qualquer endpoint da API será necessário gerar um Token, pois a mesma está protegida e utiliza de JWT (Json Web Token) para autenticação. Siga as instruções abaixo:
 - Abra sua ferramenta de requisições e acesse o endpoint http://localhost:3000/auth/generate-token . O resultado será um JSON com um token.
